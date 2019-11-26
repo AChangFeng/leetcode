@@ -1,6 +1,7 @@
 #! python3
 # -*- coding:UTF-8 -*-
 """
+# 448. Find All Numbers Disappeared in an Array
 # Created on 2019/11/26 10:12
 # findDisappearedNumbers
 # @author: ChangFeng
@@ -20,6 +21,14 @@ class Solution:
         return ans
 
     def findDisappearedNumbers(self, nums: List[int]) -> List[int]:
+        """
+        nums[i]-1就是数组下标
+        使用nums[nums[i] -1] = -nums[nums[i]-1]将该位置上的数字设置为负数
+        遍历数组，如果该位置上的数字不是负数，说明这个位置上的元素没有操作，
+        也就是说，这个位置上的下标+1就是其中一个答案
+        :param nums:
+        :return:
+        """
         for i in nums:
             index = abs(i) - 1
             if nums[index] > 0:
