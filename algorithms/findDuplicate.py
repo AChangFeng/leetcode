@@ -43,6 +43,31 @@ class Solution:
             p2 = nums[p2]
         return p1
 
+    def findDuplicate(self, nums: List[int]) -> int:
+        low, high = 1, len(nums) - 1
+        while low <= high:
+            mid = (low + high) >> 1
+            cnt = 0
+            for i in nums:
+                if i <= mid:
+                    cnt += 1
+            if cnt <= mid:
+                low = mid + 1
+            else:
+                high = mid - 1
+        return low
+
+    def findDuplicate(self, nums: List[int]) -> int:
+        low, high = 1, len(nums) - 1
+        while low <= high:
+            mid = (low + high) >> 1
+            cnt = sum(x <= mid for x in nums)
+            if cnt > mid:
+                high = mid - 1
+            else:
+                low = mid + 1
+        return low
+
 
 def test(test_case, expect):
     r = Solution().findDuplicate(test_case)
