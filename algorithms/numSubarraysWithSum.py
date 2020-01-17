@@ -7,7 +7,6 @@
 """
 import collections
 
-pow()
 
 class Solution:
     def numSubarraysWithSum(self, arr, s):
