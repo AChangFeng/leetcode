@@ -38,9 +38,40 @@ class Solution:
                 return False
         return True
 
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        if numCourses <= 0:
+            return False
+        completed = []
+        dependents = {}
+        in_degree = [0 for _ in range(numCourses)]
+        for prerequisite in prerequisites:
+            in_degree[prerequisite[0]] += 1
+            if prerequisite[1] not in dependents:
+                dependents.setdefault(prerequisite[1], [prerequisite[0]])
+            else:
+                dependents.get(prerequisite[1]).append(prerequisite[0])
+
+        completed_num = 0
+        for i in range(numCourses):
+            if in_degree[i] == 0:
+                completed.append(i)
+                completed_num += 1
+        while completed:
+            if completed_num >= numCourses:
+                return True
+            completed_num += 1
+            complete = completed.pop()
+            if complete not in dependents:
+                continue
+            for dependent in dependents.get(complete):
+                in_degree[dependent] -= 1
+                if in_degree[dependent] == 0:
+                    completed.append(dependent)
+        return False
+
 
 def main():
-    test_case = [2, [[0, 1]]]
+    test_case = [2, [[0, 1],[1, 0]]]
     print(Solution().canFinish(*test_case))
 
 
