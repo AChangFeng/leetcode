@@ -11,29 +11,33 @@ from typing import List
 
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        """
+        a依赖b,c依赖b，则b的度为2
+        """
         if numCourses <= 0:
             return False
         queue = []
-        courses = [0 for _ in range(numCourses)]
+        in_degree = [0 for _ in range(numCourses)]
         # 将有依赖的课放到数组中
         for prerequisite in prerequisites:
-            courses[prerequisite[0]] += 1
+            in_degree[prerequisite[0]] += 1
         # 将没有依赖的课放到queue中
         for i in range(numCourses):
-            if courses[i] == 0:
+            if in_degree[i] == 0:
                 queue.append(i)
         # 遍历
         while queue:
             # 取出没有依赖的课
             start_course = queue.pop()
-            # 找其依赖的课，将其-1
             for prerequisite in prerequisites:
+                # 找依赖其的课
                 if prerequisite[1] == start_course:
-                    courses[prerequisite[0]] -= 1
-                    # 如果其依赖的课已经没有依赖其的课了，则可以放入队列
-                    if courses[prerequisite[0]] == 0:
+                    # 依赖其的课的度-1
+                    in_degree[prerequisite[0]] -= 1
+                    # 如果依赖其的课的度为0，则可以放入队列
+                    if in_degree[prerequisite[0]] == 0:
                         queue.append(prerequisite[0])
-        for course in courses:
+        for course in in_degree:
             if course != 0:
                 return False
         return True
@@ -71,7 +75,7 @@ class Solution:
 
 
 def main():
-    test_case = [2, [[0, 1],[1, 0]]]
+    test_case = [2, [[0, 1], [1, 0]]]
     print(Solution().canFinish(*test_case))
 
 
