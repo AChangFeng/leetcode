@@ -69,6 +69,49 @@ class Solution:
             step *= 2
         return dummy.next
 
+    def sortList(self, head: ListNode) -> ListNode:
+        def split(node):
+            prev, slow, fast = None, node, node
+            while fast and fast.next:
+                prev, slow, fast = slow, slow.next, fast.next.next
+            if prev:
+                prev.next = None
+            return node, slow
+
+        def merge(a, b):
+            res = ListNode(0)
+            curr = res
+            while a and b:
+                if a.val < b.val:
+                    curr.next = curr = a
+                    a = a.next
+                else:
+                    curr.next = curr = b
+                    b = b.next
+            curr.next = a or b
+            return res.next
+
+        if not head or not head.next:
+            return head
+        return merge(*map(self.sortList, split(head)))
+
+    def sortList(self, head: ListNode) -> ListNode:
+        """
+        cheat
+        """
+        vals = []
+        tmp = head
+        while tmp:
+            vals.append(tmp.val)
+            tmp = tmp.next
+        vals.sort()
+        count, tmp = 0, head
+        while tmp:
+            tmp.val = vals[count]
+            count += 1
+            tmp = tmp.next
+        return head
+
 
 def main():
     node1 = ListNode(4)
