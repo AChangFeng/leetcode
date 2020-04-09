@@ -47,6 +47,32 @@ class Solution:
             copy.random = origin_copy_node_dict[origin_random]
         return dummy.next
 
+    def copyRandomList(self, head: 'Node') -> 'Node':
+        """
+        interweaving
+        """
+        if not head:
+            return None
+        curr = head
+        # insert copy
+        while curr:
+            copy = Node(curr.val, curr.next, curr.random)
+            curr.next, copy.next = copy, curr.next
+            curr = curr.next.next
+        curr = head
+        # copy random
+        while curr:
+            if curr.random:
+                curr.next.random = curr.random.next
+            curr = curr.next.next
+        copy_head = head.next
+        copy = copy_head
+        # form copy linked list
+        while copy.next:
+            copy.next = copy.next.next
+            copy = copy.next
+        return copy_head
+
 
 def main():
     src = [[7, None], [13, 0], [11, 4], [10, 2], [1, 0]]
