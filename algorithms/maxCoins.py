@@ -2,6 +2,7 @@
 # -*- coding:UTF-8 -*-
 """
 # 312. Burst Balloons
+# https://leetcode.com/problems/burst-balloons/discuss/76229/For-anyone-that-is-still-confused-after-reading-all-kinds-of-explanations...
 # Created on 2020/4/14 19:00
 # maxCoins
 # @author: ChangFeng
@@ -47,6 +48,9 @@ class Solution:
         n = len(nums)
         dp = [[0] * n for _ in range(n)]
 
+        # we can also think about this problem like a sliding window:
+        #   for each loop, we get the maximum coins to get with the window size of 3 -> burst one balloon only
+        #   we expand the window size by 1, and scan through all elements within the window, and so on
         for k in range(2, n):
             for left in range(0, n - k):
                 right = left + k
