@@ -30,6 +30,9 @@ class Solution:
         return max_len
 
     def lengthOfLongestSubstring(self, s: str) -> int:
+        """
+        slide window:
+        """
         if not s:
             return 0
         window = defaultdict(int)
