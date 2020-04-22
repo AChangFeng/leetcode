@@ -30,29 +30,37 @@ class Solution:
         return res
 
     def findAnagrams(self, s: str, p: str) -> List[int]:
-        if not p or not s:
+        """
+        slide window
+        """
+        if not p or not s or len(p) > len(s):
             return []
-        if len(p) > len(s):
-            return []
-
         chars = [0 for _ in range(26)]
         for char in p:
             chars[ord(char) - ord('a')] += 1
         res = []
         start = end = 0
-        count = len(p)
+        count = 0
         while end < len(s):
-            if end - start == len(p):
-                if chars[ord(s[start]) - ord('a')] >= 0:
-                    count += 1
-                chars[ord(s[start]) - ord('a')] += 1
-                start += 1
-            chars[ord(s[end]) - ord('a')] -= 1
-            if chars[ord(s[end]) - ord('a')] >= 0:
-                count -= 1
-            if count == 0:
-                res.append(start)
+            c = s[end]
+            # 扩大窗口
             end += 1
+            # 更新窗口内数据
+            chars[ord(c) - ord('a')] -= 1
+            if chars[ord(c) - ord('a')] >= 0:
+                count += 1
+            # 更新结果集
+            if count == len(p):
+                res.append(start)
+            # 是否要收缩窗口
+            if end - start == len(p):
+                d = s[start]
+                # 收缩窗口
+                start += 1
+                # 更新窗口内数据
+                if chars[ord(d) - ord('a')] >= 0:
+                    count -= 1
+                chars[ord(d) - ord('a')] += 1
         return res
 
 
