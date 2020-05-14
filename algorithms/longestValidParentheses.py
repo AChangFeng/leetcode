@@ -33,6 +33,7 @@ class Solution:
     def longestValidParentheses(self, s: str) -> int:
         """
         stack
+        @see https://leetcode.com/problems/longest-valid-parentheses/discuss/14126/My-O(n)-solution-using-a-stack
         """
         res = 0
         stack = [-1]
@@ -72,6 +73,37 @@ class Solution:
                 res = max(res, right * 2)
             elif right > left:
                 left, right = 0, 0
+        return res
+
+    def longestValidParentheses(self, s: str) -> int:
+        """
+        @see https://leetcode.com/problems/longest-valid-parentheses/discuss/14126/My-O(n)-solution-using-a-stack
+        """
+        res = l = _sum = 0
+        for x in s:
+            if x == '(':
+                _sum += 1
+            else:
+                _sum -= 1
+            if _sum < 0:
+                l = _sum = 0
+            else:
+                l += 1
+                if _sum == 0:
+                    res = max(res, l)
+        l = _sum = 0
+        for i in range(len(s) - 1, 0, -1):
+            x = s[i]
+            if x == ')':
+                _sum += 1
+            else:
+                _sum -= 1
+            if _sum < 0:
+                l = _sum = 0
+            else:
+                l += 1
+                if _sum == 0:
+                    res = max(res, l)
         return res
 
 
